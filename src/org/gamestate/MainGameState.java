@@ -8,13 +8,17 @@ import org.Stage.Pong;
 import org.joml.Vector2f;
 import org.joml.Vector3f;
 
+import engine.component.Camera;
 import engine.component.graphic.MovieTexture;
 import engine.component.graphic.SpriteRenderer;
+import engine.component.graphic.Texture;
 import engine.component.graphic.spriteRendererComponent.DefaultRender;
 import engine.component.midiReader.MidiReader;
 import engine.component.sound.Sound;
 import engine.component.sound.Source;
 import engine.gamestate.IGameState;
+import engine.input.InputMouseButton;
+import engine.main.Main;
 import engine.object.GameObject;
 import engine.object.UIObject;
 import engine.object.UIObject.UIPositions;
@@ -30,6 +34,13 @@ public class MainGameState implements IGameState {
 					.SetTexture(gameObject.GetComponent(MovieTexture.class).getTextureID());
 		} catch (Exception e) {
 			System.out.println(e);
+		}
+
+		if (InputMouseButton.OnMouseDown(0)) {
+			GameObject gameObject = new GameObject();
+			gameObject.transform.setPosition(Camera.MAIN.InputMousePositionV2f());
+			gameObject.AddComponent(new SpriteRenderer()).addSpriteRendererComponent(new DefaultRender());
+			gameObject.GetComponent(SpriteRenderer.class).SetTexture(Texture.getTexture("Blue"));
 		}
 
 		float f = (System.nanoTime() - SystemTime) / 1000000;
@@ -93,7 +104,7 @@ public class MainGameState implements IGameState {
 	public void Init() {
 
 		gameObject = new UIObject(UIPositions.Centered, new Vector2f(), 0);
-		gameObject.transform.setScale(new Vector2f(12.8f, 7.2f));
+		gameObject.transform.setScale(new Vector2f(Main.getWidth() / 100f, Main.getHeight() / 100f));
 		gameObject.AddComponent(new SpriteRenderer()).addSpriteRendererComponent(new DefaultRender());
 		gameObject.AddComponent(new MovieTexture("Rise.MP4"));
 		gameObject.AddComponent(new Source());
@@ -118,11 +129,16 @@ public class MainGameState implements IGameState {
 		// StrongerThanYou 0 + 1
 
 		GameObject pong = new GameObject();
-		pong.AddComponent(new Pong(1, new Vector3f(0.8f, 0.1f, 0)));
+		pong.AddComponent(new Pong(1, new Vector3f(0.8f, 0.1f, 0), true));
 		GameObject pong2 = new GameObject();
-		pong2.AddComponent(new Pong(2, new Vector3f(0.4f, 0.8f, 0)));
+		pong2.AddComponent(new Pong(2, new Vector3f(0.4f, 0.8f, 0), true));
 		GameObject pong3 = new GameObject();
-		pong3.AddComponent(new Pong(3, new Vector3f(0.2f, 0.0f, 0.8f)));
+		pong3.AddComponent(new Pong(3, new Vector3f(0.2f, 0.0f, 0.8f), true));
+		GameObject pong0 = new GameObject();
+		pong0.AddComponent(new Pong(0, new Vector3f(0.2f, 0.0f, 0.8f), false));
+
+		// Camera.MAIN.angle = (float) (Math.PI);
+
 	}
 
 }

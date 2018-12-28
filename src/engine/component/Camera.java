@@ -1,6 +1,5 @@
 package engine.component;
 
-import org.jbox2d.common.Vec2;
 import org.joml.Matrix4f;
 import org.joml.Vector2f;
 import org.joml.Vector3f;
@@ -21,6 +20,8 @@ public class Camera extends Component {
 	 * Mouse scroll that resize the screen
 	 */
 	public float scroll = 1;
+
+	public float angle = 0;
 
 	public static Camera MAIN;
 
@@ -43,7 +44,7 @@ public class Camera extends Component {
 				// else apply scale and translation
 				shader.setUniformMat4f("vw_matrix",
 						new Matrix4f().translate(-gameObject.transform.position.x, -gameObject.transform.position.y, 0)
-								.scale(scroll));
+								.rotate(angle, 0, 0, 1).scale(scroll));
 
 				shader.setUniformMat4f("pr_matrix", SpriteRenderer.pr_matrix);
 			}
@@ -87,22 +88,14 @@ public class Camera extends Component {
 	}
 
 	public Vector2f InputMousePositionV2f() {
-		Vector2f screenVector = InputMousePos.RelativePos;
+		Vector2f screenVector = InputMousePos.ScreenPos;
 		Vector2f worldVector = new Vector2f();
-		worldVector.x = screenVector.x * 1280 / Main.getWidth();
-		worldVector.y = screenVector.y * 720 / Main.getHeight();
-		worldVector.x += gameObject.transform.position.x / scroll;
-		worldVector.y += gameObject.transform.position.y / scroll;
-		return worldVector;
-	}
-
-	public Vec2 InputMousePositionVec2() {
-		Vector2f screenVector = InputMousePos.RelativePos;
-		Vec2 worldVector = new Vec2();
-		worldVector.x = screenVector.x * 1280 / Main.getWidth();
-		worldVector.y = screenVector.y * 720 / Main.getHeight();
-		worldVector.x += gameObject.transform.position.x / scroll;
-		worldVector.y += gameObject.transform.position.y / scroll;
+		worldVector.x = screenVector.x;
+		worldVector.y = screenVector.y;
+		worldVector.x += gameObject.transform.position.x;
+		worldVector.y += gameObject.transform.position.y;
+		worldVector.mul(1f / scroll);
+		worldVector = Mathf.rotateVector(worldVector, angle);
 		return worldVector;
 	}
 
@@ -113,8 +106,8 @@ public class Camera extends Component {
 	public Vector2f ScreenToWorldPositionWITHOUTSCROLL() {
 		Vector2f screenVector = InputMousePos.ScreenPos;
 		Vector2f worldVector = new Vector2f();
-		worldVector.x = screenVector.x * 1280 / Main.getWidth();
-		worldVector.y = screenVector.y * 720 / Main.getHeight();
+		worldVector.x = screenVector.x;
+		worldVector.y = screenVector.y;
 		worldVector.x += gameObject.transform.position.x;
 		worldVector.y += gameObject.transform.position.y;
 		return worldVector;
@@ -123,8 +116,8 @@ public class Camera extends Component {
 	public Vector2f ScreenToWorldPositionWITHOUTscrollWITHOUTcamera() {
 		Vector2f screenVector = InputMousePos.ScreenPos;
 		Vector2f worldVector = new Vector2f();
-		worldVector.x = screenVector.x * 1280 / Main.getWidth();
-		worldVector.y = screenVector.y * 720 / Main.getHeight();
+		worldVector.x = screenVector.x;
+		worldVector.y = screenVector.y;
 		return worldVector;
 	}
 

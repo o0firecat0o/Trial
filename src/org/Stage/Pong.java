@@ -7,6 +7,7 @@ import org.jbox2d.dynamics.Fixture;
 import org.joml.Vector2f;
 import org.joml.Vector3f;
 
+import engine.component.Camera;
 import engine.component.graphic.SpriteRenderer;
 import engine.component.graphic.Texture;
 import engine.component.graphic.spriteRendererComponent.DefaultRender;
@@ -37,9 +38,7 @@ public class Pong extends Component implements IContact, QueryCallback {
 		float x;
 		float y;
 		if (!AIControlled) {
-			// x = Interpolation(gameObject.transform.position.x,
-			// Camera.MAIN.InputMousePositionV2f().x, speed);
-			x = 0;
+			x = Interpolation(gameObject.transform.position.x, Camera.MAIN.InputMousePositionV2f().x, speed);
 			y = 0;
 		} else {
 			ArrayList<Fixture> fixtures = Physics.OverlapAABB(new Vector2f(-4500, -4500), new Vector2f(4500, 4500));
@@ -136,11 +135,11 @@ public class Pong extends Component implements IContact, QueryCallback {
 
 	public boolean AIControlled = true;
 
-	public Pong(float location, Vector3f Color) {
+	public Pong(float location, Vector3f Color, boolean AIControlled) {
 		super();
 		this.location = location;
 		this.Color = Color;
-
+		this.AIControlled = AIControlled;
 	}
 
 	@Override

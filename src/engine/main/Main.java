@@ -2,8 +2,8 @@ package engine.main;
 
 public class Main {
 
-	private static int width = 1280;
-	private static int height = 720;
+	private static int width = 1600;
+	private static int height = 900;
 
 	private Thread RenderThread;
 	private Thread LogicThread;

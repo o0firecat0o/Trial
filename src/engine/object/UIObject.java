@@ -2,6 +2,8 @@ package engine.object;
 
 import org.joml.Vector2f;
 
+import engine.main.Main;
+
 public class UIObject extends GameObject {
 
 	@Override
@@ -14,27 +16,27 @@ public class UIObject extends GameObject {
 			transform.position.y = uIPositionsOffset.y;
 			break;
 		case BottomCentered:
-			transform.position.x = (uIPositionsOffset.x + 1280 / 2);
-			transform.position.y = (uIPositionsOffset.y - 720 / 2);
+			transform.position.x = (uIPositionsOffset.x + Main.getWidth() / 2);
+			transform.position.y = (uIPositionsOffset.y - Main.getHeight() / 2);
 			break;
 		case TopCentered:
-			transform.position.x = (uIPositionsOffset.x + 1280 / 2);
-			transform.position.y = (uIPositionsOffset.y + 720);
+			transform.position.x = (uIPositionsOffset.x + Main.getWidth() / 2);
+			transform.position.y = (uIPositionsOffset.y + Main.getHeight());
 			break;
 		case Centered:
-			transform.position.x = (uIPositionsOffset.x + 1280 / 2);
-			transform.position.y = (uIPositionsOffset.y + 720 / 2);
+			transform.position.x = (uIPositionsOffset.x + Main.getWidth() / 2);
+			transform.position.y = (uIPositionsOffset.y + Main.getHeight() / 2);
 			break;
 		case RightCentered:
-			transform.position.x = (uIPositionsOffset.x + 1280);
-			transform.position.y = (uIPositionsOffset.y + 720 / 2);
+			transform.position.x = (uIPositionsOffset.x + Main.getWidth());
+			transform.position.y = (uIPositionsOffset.y + Main.getHeight() / 2);
 			break;
 		case TopLeft:
 			transform.position.x = (uIPositionsOffset.x);
-			transform.position.y = (uIPositionsOffset.y + 720);
+			transform.position.y = (uIPositionsOffset.y + Main.getHeight());
 			break;
 		case BottomRight:
-			transform.position.x = (uIPositionsOffset.x + 1280);
+			transform.position.x = (uIPositionsOffset.x + Main.getWidth());
 			transform.position.y = (uIPositionsOffset.y);
 			break;
 		}
